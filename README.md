@@ -1,59 +1,163 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel 12 Custom Auth Starter
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A custom starter project for Laravel 12 with Laravel UI 4.6 authentication, featuring user approval workflow and role-based access control.
 
-## About Laravel
+## Features
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Laravel 12** framework with latest features
+- **Laravel UI 4.6** for authentication scaffolding
+- **Custom Authentication Flow**:
+  - After registration, users are redirected to login page (not dashboard)
+  - New users require admin approval before they can log in
+  - Unapproved users see appropriate messages
+- **Role-Based Access**:
+  - Admin users (`is_admin = 1`)
+  - Approved users (`is_approved = 1`)
+  - User approval system
+- **Modern Frontend Stack**:
+  - Tailwind CSS v4
+  - Bootstrap 5
+  - Vite for asset bundling
+- **Testing Ready**: Pest PHP testing framework included
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP 8.2 or higher
+- Composer
+- Node.js & npm
+- MySQL/PostgreSQL/SQLite database
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd laravel12_with_custom_auth
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. **Install PHP dependencies**:
+   ```bash
+   composer install
+   ```
 
-## Laravel Sponsors
+3. **Install Node.js dependencies**:
+   ```bash
+   npm install
+   ```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. **Environment Setup**:
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
 
-### Premium Partners
+5. **Database Setup**:
+   - Configure your database in `.env` file
+   - Run migrations:
+     ```bash
+     php artisan migrate
+     ```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+6. **Build Assets**:
+   ```bash
+   npm run build
+   ```
 
-## Contributing
+## Quick Setup (Alternative)
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+You can use the built-in setup script:
+```bash
+composer run setup
+```
 
-## Code of Conduct
+This will install dependencies, copy env file, generate key, run migrations, and build assets.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Running the Application
 
-## Security Vulnerabilities
+1. **Start the development server**:
+   ```bash
+   php artisan serve
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+2. **Start asset watcher** (in another terminal):
+   ```bash
+   npm run dev
+   ```
+
+3. **Access the application**:
+   - Open `http://localhost:8000` in your browser
+
+## Usage
+
+### User Registration & Approval Workflow
+
+1. **Register a new account**:
+   - Visit `/register`
+   - Fill in the registration form
+   - After successful registration, you'll be redirected to the login page with a success message
+
+2. **Admin Approval**:
+   - Admin users need to approve new registrations
+   - Access admin panel at `/adminPage` (requires authentication and admin role)
+   - Approve users by updating their `is_approved` status in the database
+
+3. **Login**:
+   - Visit `/login`
+   - If your account is not approved, you'll see an error message
+   - Once approved by admin, you can log in successfully
+
+### User Roles
+
+- **Regular Users**: Can access basic pages after approval
+- **Admin Users**: Have access to admin panel and can approve other users
+
+### Available Routes
+
+- `/` - Welcome page
+- `/login` - User login
+- `/register` - User registration
+- `/home` - Dashboard (authenticated users)
+- `/userPage` - User-specific page (authenticated users)
+- `/adminPage` - Admin panel (admin users only)
+- `/test` - Test page
+
+## Development
+
+### Adding New Features
+
+1. **Controllers**: Create new controllers in `app/Http/Controllers/`
+2. **Routes**: Add routes in `routes/web.php`
+3. **Views**: Create Blade templates in `resources/views/`
+4. **Models**: Add Eloquent models in `app/Models/`
+5. **Migrations**: Create database migrations with `php artisan make:migration`
+
+### Testing
+
+Run tests with Pest:
+```bash
+php artisan test
+```
+
+### Code Quality
+
+Format code with Laravel Pint:
+```bash
+vendor/bin/pint --dirty --format agent
+```
+
+## Database Schema
+
+The `users` table includes additional columns:
+- `is_admin` (boolean): Marks admin users
+- `is_approved` (boolean): Marks approved users
+
+## Customization
+
+- **Authentication Logic**: Modify `app/Http/Controllers/Auth/` controllers
+- **Middleware**: Custom middleware in `app/Http/Middleware/`
+- **Views**: Authentication views in `resources/views/auth/`
+- **Frontend**: Styles in `resources/css/`, scripts in `resources/js/`
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](LICENSE).

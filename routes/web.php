@@ -17,7 +17,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/adminPage', function () {
     return view('adminPage');
-})->middleware('auth');
+})->middleware(['auth', \App\Http\Middleware\IsAdmin::class]);
 
 Route::get('/userPage', function () {
     return view('userPage');
